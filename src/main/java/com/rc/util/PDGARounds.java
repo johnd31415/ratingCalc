@@ -46,6 +46,7 @@ public class PDGARounds {
                 //Parse table entries out of DOM
                 String tourney = ((TextNode)row.childNode(0).childNode(0).childNode(0)).text();
                 String tier = ((TextNode)row.childNode(1).childNode(0)).text();
+
                 int round = 0;
                 try{
                     round = Integer.parseInt(((TextNode)row.childNode(4).childNode(0)).text());
@@ -53,12 +54,19 @@ public class PDGARounds {
                     
                     round = 100;//sometimes round is "semis" or "finals"; counting on this -1 value not actually being used
                 }
+
+                //Get number of holes in round from hover tooltip with matching id
+                String rndNumId = row.childNode(4).attr("data-tooltip-content").substring(1);
+                Elements rndEle = doc.select("span#" + rndNumId);
+                String[] rndLayout = rndEle.get(0).text().split(";");
+                int numHoles = Integer.parseInt(rndLayout[rndLayout.length - 3].substring(1,3));
+
                 Date date = getRoundDate(((TextNode)row.childNode(2).childNode(0)).text(), round, tier);
                 int rating = Integer.parseInt(((TextNode)row.childNode(6).childNode(0)).text());
                 Boolean evaluated = ((TextNode)row.childNode(7).childNode(0)).text().equals("Yes") ? true : false;
                 Boolean included = ((TextNode)row.childNode(8).childNode(0)).text().equals("Yes") ? true : false;
 
-                rounds.add(new Round(tourney, tier, date, round, rating, evaluated, included));
+                rounds.add(new Round(tourney, tier, date, round, numHoles, rating, evaluated, included));
             }
         }
         return rounds;

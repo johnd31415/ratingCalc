@@ -7,6 +7,7 @@ public class Round {
     private String tier;
     private Date roundDate;
     private int round;
+    private int numHoles;
     private int rating;
     private Boolean evaluated;
     private Boolean included;
@@ -16,15 +17,17 @@ public class Round {
         this.tier = "";
         this.roundDate = null;
         this.round = 0;
+        this.numHoles = 0;
         this.rating = 0;
         this.evaluated = null;
         this.included = null;
     }
-    public Round(String tourney, String tier, Date roundDate, int round, int rating, Boolean evaluated, Boolean included){
+    public Round(String tourney, String tier, Date roundDate, int round, int numHoles, int rating, Boolean evaluated, Boolean included){
         this.tourney = tourney;
         this.tier = tier;
         this.roundDate = roundDate;
         this.round = round;
+        this.numHoles = numHoles;
         this.rating = rating;
         this.evaluated = evaluated;
         this.included = included;
@@ -52,6 +55,12 @@ public class Round {
     }
     public int getRound(){
         return this.round;
+    }
+    public void setNumHoles(int numHoles){
+        this.numHoles = numHoles;
+    }
+    public int getNumHoles(){
+        return this.numHoles;
     }
     public void setRating(int rating){
         this.rating = rating;

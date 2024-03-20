@@ -25,7 +25,7 @@ class RatingCalc{
 
         boolean first = true;
         while(true){
-            System.out.println("Enter new round in the form [date(MM/DD/YYYY) rndNum rating] not including the brackets");
+            System.out.println("Enter new round in the form [date(MM/DD/YYYY) rndNum numHoles rating] not including the brackets");
             if(!first){
                 System.out.println("When done, simply click enter");
             }
@@ -39,7 +39,7 @@ class RatingCalc{
                 cal.set(Calendar.YEAR, Integer.parseInt(parts[2]));
                 cal.set(Calendar.MONTH, Integer.parseInt(parts[0]) - 1);
                 cal.set(Calendar.DATE, Integer.parseInt(parts[1]));
-                rounds.add(new Round("foo", "foo", cal.getTime(), Integer.parseInt(pieces[1]), Integer.parseInt(pieces[2]), true, true));
+                rounds.add(new Round("foo", "foo", cal.getTime(), Integer.parseInt(pieces[1]), Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]), true, true));
             }
             first = false;
         }
@@ -62,8 +62,8 @@ class RatingCalc{
                 dubCount += 1;
             }
             if(round.getIncluded()){
-                total += round.getRating();
-                count += 1;
+                total += (round.getRating() * round.getNumHoles());
+                count += round.getNumHoles();
             }
         };
 
@@ -74,8 +74,8 @@ class RatingCalc{
                 continue;
             }
 
-            total += rounds.get(i).getRating();
-            count += 1;
+            total += (rounds.get(i).getRating() * rounds.get(i).getNumHoles());
+            count += rounds.get(i).getNumHoles();
         }
         return Math.round(total / (double)count);
     }
